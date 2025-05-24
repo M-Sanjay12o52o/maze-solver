@@ -14,6 +14,8 @@ class Cell:
         self.__y2 = -1
         self.__win = window
         self.cell_size = cell_size
+        # this we will use to track which cells have had their walls broken
+        self.visited = False
 
     def draw(self, x, y):
         self.__x1 = x

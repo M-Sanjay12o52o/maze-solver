@@ -1,5 +1,6 @@
 from cell import Cell
 import time
+import random
 
 
 class Maze:
@@ -12,6 +13,7 @@ class Maze:
         cell_size_x,
         cell_size_y,
         win=None,
+        seed=None,
     ):
         self.x1 = x1
         self.y1 = y1
@@ -21,8 +23,16 @@ class Maze:
         self.cell_size_y = cell_size_y
         self.win = win
         self._Maze__cells = []
+
         self.__create_cells()
         self.__break_entrance_and_exit()
+
+        self.__break_walls_r(0, 0)
+
+        self.__reset_cells_visited()
+
+        if seed is not None:
+            random.seed(seed)
 
     def __create_cells(self):
         print(
@@ -72,3 +82,47 @@ class Maze:
 
         self.__draw_cell(entrance_cell_col, entrance_cell_row, entrance_cell)
         self.__draw_cell(exit_cell_col, exit_cell_row, exit_cell)
+
+    # this is a recursive method.
+    # its a depth-first traversal through the cells
+    # breaking down walls as it goes.
+    def __break_walls_r(self, i, j):
+        current_cell = self._Maze__cells[i][j]
+        current_cell.visited = True
+
+        while True:
+            unvisited_neighbors = []
+
+            if i > 0 and not self._Maze__cells[i - 1][j].visited:
+                unvisited_neighbors.append((i - 1, j, "top"))
+            if j < self.num_cols - 1 and not self._Maze__cells[i][j + 1].visited:
+                unvisited_neighbors.append((i, j + 1, "right"))
+            if i < self.num_rows - 1 and not self._Maze__cells[i + 1][j].visited:
+                unvisited_neighbors.append((i + 1, j, "bottom"))
+            if j > 0 and not self._Maze__cells[i][j - 1].visited:
+                unvisited_neighbors.append((i, j - 1, "left"))
+
+            if not unvisited_neighbors:
+                return
+
+            next_cell_info = random.choice(unvisited_neighbors)
+            next_i, next_j, direction = next_cell_info
+            next_cell = self._Maze__cells[next_i][next_j]
+
+            if direction == "top":
+                current_cell.has_top_wall = False
+                next_cell.has_bottom_wall = False
+            elif direction == "right":
+                current_cell.has_right_wall = False
+                current_cell.has_left_wall = False
+            elif direction == "bottom":
+                current_cell.has_bottom_wall = False
+                next_cell.has_top_wall = False
+            elif direction == "left":
+                current_cell.has_left_wall = False
+                next_cell.has_right_wall = False
+
+    def __reset_cells_visited(self):
+        for row in self._Maze__cells:
+            for cell in row:
+                cell.visited = False
