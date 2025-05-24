@@ -20,28 +20,30 @@ class Maze:
         self.cell_size_x = cell_size_x
         self.cell_size_y = cell_size_y
         self.win = win
-        self.__cells = []
+        self._Maze__cells = []
         self.__create_cells()
 
     def __create_cells(self):
         print(
             f"DEBUG: __create_cells - num_cols: {self.num_cols}, num_rows: {self.num_rows}"
         )
-        self.__cells = [[] for _ in range(self.num_cols)]
+        self._Maze__cells = [[] for _ in range(self.num_cols)]
         for i in range(self.num_cols):
             for j in range(self.num_rows):
                 new_cell = Cell(self.win, self.cell_size_x)
-                self.__cells[i].append(new_cell)
+                self._Maze__cells[i].append(new_cell)
             print(
-                f"DEBUG: Column {i} populated. len(self.__cells[{i}])={len(self.__cells[i])}"
+                f"DEBUG: Column {i} populated. len(self._Maze__cells[{i}])={len(self._Maze__cells[i])}"
             )
-        print(f"DEBUG: Finished populating. len(self.__cells)={len(self.__cells)}")
+        print(
+            f"DEBUG: Finished populating. len(self._Maze__cells)={len(self._Maze__cells)}"
+        )
         if self.num_cols > 0:
-            print(f"DEBUG: len(self.__cells[0])={len(self.__cells[0])}")
+            print(f"DEBUG: len(self._Maze__cells[0])={len(self._Maze__cells[0])}")
         for i in range(self.num_cols):
             for j in range(self.num_rows):
                 print(f"DEBUG: Drawing cell at i={i}, j={j}")
-                cell_to_draw = self.__cells[i][j]
+                cell_to_draw = self._Maze__cells[i][j]
                 self.__draw_cell(i, j, cell_to_draw)
 
     def __draw_cell(self, i, j, cell_obj):
@@ -51,5 +53,6 @@ class Maze:
         self.animate()
 
     def animate(self):
-        self.win.redraw()
+        if self.win is not None:
+            self.win.redraw()
         time.sleep(0.05)

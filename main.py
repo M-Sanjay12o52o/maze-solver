@@ -7,7 +7,7 @@ from maze import Maze
 
 def main():
     CELL_SIZE = 50
-    CELL_SPACING = 10
+    # CELL_SPACING = 10
     # STEP = CELL_SIZE + CELL_SPACING
     WIN_WIDTH = 800
     WIN_HEIGHT = 600
@@ -29,10 +29,11 @@ def main():
 
     if num_cols > 1 and num_rows > 1:
         print("\nTesting draw_move between maze cells:")
-        cell_a = maze._Maze__cells[0][0]  # Top-left cell
-        cell_b = maze._Maze__cells[1][0]  # Cell to the right
+        cell_a = maze._Maze__cells[0][0]
+        cell_b = maze._Maze__cells[1][0]
         cell_c = maze._Maze__cells[0][1]  # Cell below
         cell_d = maze._Maze__cells[1][1]  # Cell diagonally below
+
         cell_a.draw_move(cell_b)
         cell_b.draw_move(cell_d)
         cell_d.draw_move(cell_c)
