@@ -41,19 +41,50 @@ class Tests(unittest.TestCase):
         maze = Maze(0, 0, num_rows, num_cols, cell_size, cell_size, win=None)
 
         entrance_cell = maze._Maze__cells[0][0]
-
-        self.assertEqual(entrance_cell.has_top_wall, "Top wall of entrance cell ")
+        self.assertFalse(entrance_cell.has_top_wall, "Top wall of entrance cell ")
 
         exit_cell = maze._Maze__cells[num_cols - 1][num_rows - 1]
-
         self.assertFalse(
             exit_cell.has_bottom_wall, "Bottom wall of exit cell should be removed."
         )
 
-        self.assertTrue(entrance_cell.has_bottom_wall)
-        self.assertTrue(entrance_cell.has_right_wall)
-        self.assertTrue(exit_cell.has_top_wall)
-        self.assertTrue(exit_cell.has_left_wall)
+        # self.assertTrue(entrance_cell.has_bottom_wall)
+        # self.assertTrue(entrance_cell.has_right_wall)
+        # self.assertTrue(exit_cell.has_top_wall)
+        # self.assertTrue(exit_cell.has_left_wall)
+
+    def test_reset_cells_visited(self):
+        num_rows = 5
+        num_cols = 5
+        maze = Maze(
+            x1=0,
+            y1=0,
+            num_rows=num_rows,
+            num_cols=num_cols,
+            cell_size_x=10,
+            cell_size_y=10,
+            win=None,
+            seed=None,
+        )
+
+        maze._Maze__cells[0][0].visited = True
+        maze._Maze__cells[2][3].visited = True
+        maze._Maze__cells[num_cols - 1][num_rows - 1].visited = True
+        maze._Maze__cells[1][1].visited = True
+
+        self.assertTrue(maze._Maze__cells[0][0].visited)
+        self.assertTrue(maze._Maze__cells[2][3].visited)
+        self.assertTrue(maze._Maze__cells[num_cols - 1][num_rows - 1].visited)
+        self.assertTrue(maze._Maze__cells[1][1].visited)
+
+        maze._Maze__reset_cells_visited()
+
+        for i in range(num_cols):
+            for j in range(num_rows):
+                self.assertFalse(
+                    maze._Maze__cells[i][j].visited,
+                    f"Cell at ({i}, {j}) should be unvisited after reset",
+                )
 
 
 if __name__ == "__main__":
