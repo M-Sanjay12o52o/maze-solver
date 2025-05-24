@@ -77,7 +77,7 @@ class Tests(unittest.TestCase):
         self.assertTrue(maze._Maze__cells[num_cols - 1][num_rows - 1].visited)
         self.assertTrue(maze._Maze__cells[1][1].visited)
 
-        maze._Maze__reset_cells_visited()
+        maze._reset_cells_visited()
 
         for i in range(num_cols):
             for j in range(num_rows):
