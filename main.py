@@ -12,7 +12,7 @@ class Maze:
         num_cols,
         cell_size_x,
         cell_size_y,
-        win,
+        win=None,
     ):
         # it initializes data members for all its inputs
         self.x1 = x1
@@ -96,7 +96,7 @@ class Maze:
 
 
 class Cell:
-    def __init__(self, window, cell_size):
+    def __init__(self, window=None, cell_size):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
